@@ -1,1 +1,250 @@
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sori Decor | Gestión</title>
+<style>
+:root {
+  --burgundy: #702d40;
+  --pink: #ead4d8;
+  --cream: #faf7f2;
+  --white: #ffffff;
+  --text: #40343a;
+  --muted: #8c8184;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--text);
+  font-family: Arial, sans-serif;
+}
+header {
+  background: var(--burgundy);
+  color: white;
+  padding: 25px 22px;
+  border-radius: 0 0 24px 24px;
+}
+header h1 {
+  margin: 0;
+  font-family: Georgia, serif;
+  font-size: 29px;
+  letter-spacing: 1px;
+}
+header p { margin-bottom: 0; opacity: .85; }
+main { padding: 22px; max-width: 1000px; margin: auto; }
+h2 { font-family: Georgia, serif; color: var(--burgundy); }
+.welcome { margin: 10px 0 24px; }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 13px;
+}
+.card {
+  background: white;
+  padding: 19px 14px;
+  border-radius: 16px;
+  border: 1px solid #eee5e4;
+  min-height: 110px;
+  cursor: pointer;
+  text-align: left;
+  color: var(--text);
+  font-size: 15px;
+}
+.card:hover { border-color: var(--burgundy); }
+.card .emoji { font-size: 25px; display: block; margin-bottom: 12px; }
+.card strong { color: var(--burgundy); }
+.card small { display: block; color: var(--muted); margin-top: 5px; }
+.summary {
+  background: var(--pink);
+  border-radius: 17px;
+  padding: 20px;
+  margin: 22px 0;
+}
+.summary h3 { margin-top: 0; color: var(--burgundy); }
+nav {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 20px 0;
+}
+nav button {
+  border: 0;
+  border-radius: 20px;
+  padding: 10px 14px;
+  background: white;
+  color: var(--burgundy);
+  cursor: pointer;
+}
+nav button.active {
+  background: var(--burgundy);
+  color: white;
+}
+.section {
+  display: none;
+  background: white;
+  border-radius: 17px;
+  padding: 20px;
+  min-height: 180px;
+}
+.section.active { display: block; }
+.section p { color: var(--muted); }
+footer {
+  text-align: center;
+  padding: 30px 10px;
+  color: var(--muted);
+  font-size: 12px;
+}
+@media (min-width: 700px) {
+  .grid { grid-template-columns: repeat(4, 1fr); }
+  main { padding: 35px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>SORI DECOR</h1>
+  <p>Gestión privada del negocio</p>
+</header>
+
+<main>
+  <div class="welcome">
+    <h2>¡Bienvenida!</h2>
+    <p>Organiza y gestiona tu negocio desde aquí.</p>
+  </div>
+
+  <div class="summary">
+    <h3>Resumen del negocio</h3>
+    <p>Tu espacio de organización y gestión de Sori Decor.</p>
+    <strong>Todo en un mismo lugar.</strong>
+  </div>
+
+  <h2>Mi gestión</h2>
+
+  <div class="grid">
+    <button class="card" onclick="showSection('clientes')">
+      <span class="emoji">👥</span>
+      <strong>Clientes</strong>
+      <small>Gestionar clientes</small>
+    </button>
+
+    <button class="card" onclick="showSection('eventos')">
+      <span class="emoji">🎈</span>
+      <strong>Eventos</strong>
+      <small>Celebraciones y montajes</small>
+    </button>
+
+    <button class="card" onclick="showSection('presupuestos')">
+      <span class="emoji">📋</span>
+      <strong>Presupuestos</strong>
+      <small>Crear y consultar</small>
+    </button>
+
+    <button class="card" onclick="showSection('catalogo')">
+      <span class="emoji">🎀</span>
+      <strong>Catálogo</strong>
+      <small>Servicios y precios</small>
+    </button>
+
+    <button class="card" onclick="showSection('pagos')">
+      <span class="emoji">💶</span>
+      <strong>Pagos</strong>
+      <small>Señales y cobros</small>
+    </button>
+
+    <button class="card" onclick="showSection('gastos')">
+      <span class="emoji">🧾</span>
+      <strong>Gastos</strong>
+      <small>Control de gastos</small>
+    </button>
+
+    <button class="card" onclick="showSection('inventario')">
+      <span class="emoji">📦</span>
+      <strong>Inventario</strong>
+      <small>Material disponible</small>
+    </button>
+
+    <button class="card" onclick="showSection('tareas')">
+      <span class="emoji">📝</span>
+      <strong>Tareas</strong>
+      <small>Organización diaria</small>
+    </button>
+  </div>
+
+  <nav>
+    <button class="active" onclick="showSection('inicio',this)">Inicio</button>
+    <button onclick="showSection('clientes',this)">Clientes</button>
+    <button onclick="showSection('eventos',this)">Eventos</button>
+    <button onclick="showSection('presupuestos',this)">Presupuestos</button>
+  </nav>
+
+  <div id="inicio" class="section active">
+    <h2>Inicio</h2>
+    <p>Bienvenida al panel de gestión de Sori Decor.</p>
+  </div>
+
+  <div id="clientes" class="section">
+    <h2>Clientes</h2>
+    <p>Aquí gestionaremos las fichas y los datos de tus clientes.</p>
+  </div>
+
+  <div id="eventos" class="section">
+    <h2>Eventos</h2>
+    <p>Aquí organizaremos las próximas celebraciones.</p>
+  </div>
+
+  <div id="presupuestos" class="section">
+    <h2>Presupuestos</h2>
+    <p>Aquí crearemos presupuestos personalizados.</p>
+  </div>
+
+  <div id="catalogo" class="section">
+    <h2>Catálogo</h2>
+    <p>Arcos, cubos, mesas y servicios de decoración.</p>
+  </div>
+
+  <div id="pagos" class="section">
+    <h2>Pagos</h2>
+    <p>Control de señales, cobros y pagos pendientes.</p>
+  </div>
+
+  <div id="gastos" class="section">
+    <h2>Gastos</h2>
+    <p>Registro de compras y gastos del negocio.</p>
+  </div>
+
+  <div id="inventario" class="section">
+    <h2>Inventario</h2>
+    <p>Control de materiales y existencias.</p>
+  </div>
+
+  <div id="tareas" class="section">
+    <h2>Tareas</h2>
+    <p>Organización de tareas pendientes.</p>
+  </div>
+</main>
+
+<footer>SORI DECOR · Gestión privada del negocio</footer>
+
+<script>
+function showSection(name, button) {
+  document.querySelectorAll('.section').forEach(section => {
+    section.classList.remove('active');
+  });
+
+  document.getElementById(name).classList.add('active');
+
+  document.querySelectorAll('nav button').forEach(btn => {
+    btn.classList.remove('active');
+  });
+
+  if (button) button.classList.add('active');
+}
+</script>
+
+</body>
+</html>
+
