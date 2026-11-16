@@ -246,6 +246,105 @@ function showSection(name, button) {
 }
 </script>
 
+<section id="clientes" class="section">
+  <h2>Mis clientes</h2>
+
+  <button onclick="mostrarFormularioCliente()">
+    + Añadir cliente
+  </button>
+
+  <div id="formularioCliente" style="display:none; margin-top:20px;">
+    <h3>Nuevo cliente</h3>
+
+    <input id="clienteNombre" placeholder="Nombre completo">
+    <input id="clienteTelefono" placeholder="Teléfono">
+    <input id="clienteEmail" type="email" placeholder="Correo electrónico">
+    <input id="clienteDireccion" placeholder="Dirección">
+    <input id="clienteInstagram" placeholder="Instagram">
+    <textarea id="clienteNotas" placeholder="Notas"></textarea>
+
+    <button onclick="guardarCliente()">Guardar cliente</button>
+    <button onclick="document.getElementById('formularioCliente').style.display='none'">
+      Cancelar
+    </button>
+  </div>
+
+  <div id="listaClientes"></div>
+</section>
+
+<script>
+function mostrarFormularioCliente() {
+  document.getElementById('formularioCliente').style.display = 'block';
+}
+
+async function guardarCliente() {
+  const nombre = document.getElementById('clienteNombre').value.trim();
+
+  if (!nombre) {
+    alert('Escribe el nombre del cliente');
+    return;
+  }
+
+  const cliente = {
+    nombre,
+    telefono: document.getElementById('clienteTelefono').value,
+    email: document.getElementById('clienteEmail').value,
+    direccion: document.getElementById('clienteDireccion').value,
+    instagram: document.getElementById('clienteInstagram').value,
+    notas: document.getElementById('clienteNotas').value
+  };
+
+  const { data, error } = await supabaseClient
+    .from('clientes')
+    .insert([cliente])
+    .select();
+
+  if (error) {
+    alert('No se pudo guardar: ' + error.message);
+    return;
+  }
+
+  alert('¡Cliente guardado correctamente!');
+
+  document.getElementById('formularioCliente').style.display = 'none';
+  document.querySelectorAll('#formularioCliente input, #formularioCliente textarea')
+    .forEach(campo => campo.value = '');
+
+  cargarClientes();
+}
+
+async function cargarClientes() {
+  const { data, error } = await supabaseClient
+    .from('clientes')
+    .select('*')
+    .order('nombre');
+
+  const lista = document.getElementById('listaClientes');
+
+  if (error) {
+    lista.textContent = 'Error al cargar clientes: ' + error.message;
+    return;
+  }
+
+  lista.innerHTML = '';
+
+  data.forEach(cliente => {
+    const ficha = document.createElement('div');
+    ficha.style.cssText = 'background:white;padding:15px;margin:12px 0;border-radius:12px;';
+    
+    const nombre = document.createElement('strong');
+    nombre.textContent = cliente.nombre;
+    ficha.appendChild(nombre);
+
+    const telefono = document.createElement('p');
+    telefono.textContent = cliente.telefono || 'Sin teléfono';
+    ficha.appendChild(telefono);
+
+    lista.appendChild(ficha);
+  });
+}
+</script>
+
 </body>
 </html>
 
