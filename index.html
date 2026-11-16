@@ -105,6 +105,55 @@ footer {
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
+  
+<div id="pantallaLogin" style="display:none; max-width:380px; margin:60px auto; padding:25px; background:white; border-radius:16px;">
+  <h2>Bienvenida a Sori Decor</h2>
+  <p>Accede a tu espacio de trabajo</p>
+
+  <input id="loginEmail" type="email" placeholder="Correo electrónico">
+  <input id="loginPassword" type="password" placeholder="Contraseña">
+
+  <button onclick="iniciarSesion()">Entrar</button>
+
+  <p id="loginMensaje"></p>
+</div>
+
+<script>
+async function iniciarSesion() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+
+  const mensaje = document.getElementById('loginMensaje');
+
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if (error) {
+    mensaje.textContent = 'No se pudo iniciar sesión: ' + error.message;
+    return;
+  }
+
+  comprobarSesion();
+}
+
+async function comprobarSesion() {
+  const { data } = await supabaseClient.auth.getSession();
+
+  const login = document.getElementById('pantallaLogin');
+  const panel = document.querySelector('header');
+
+  if (data.session) {
+    login.style.display = 'none';
+    if (panel) panel.style.display = 'block';
+  } else {
+    login.style.display = 'block';
+    if (panel) panel.style.display = 'none';
+  }
+}
+</script>
+
 
 <header>
   <h1>SORI DECOR</h1>
